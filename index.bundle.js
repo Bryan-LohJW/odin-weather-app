@@ -1,16 +1,1 @@
-(() => {
-  const t = (async function ([t, a]) {
-    let e;
-    try {
-      const c = "4e767ccf870324498e595e40179c0c00",
-        o = await fetch(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${t}&lon=${a}&appid=${c}`
-        );
-      e = (await o.json()).weather;
-    } catch (t) {
-      console.log(t);
-    }
-    return e;
-  })(["30", "40"]);
-  console.log(t);
-})();
+(()=>{"use strict";!function(){const t=document.querySelector("body"),a=document.createElement("div");a.classList.add("content"),t.appendChild(a)}(),async function(t){try{const a="cd422b923b03f0e42f9bffddb3a4239d",e=await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${t}&limit=1&appid=${a}`,{mode:"cors"}),o=await e.json(),{lon:n}=o[0],{lat:c}=o[0],d=await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${c}&lon=${n}&appid=${a}`),i=await d.json();console.log(i)}catch(t){console.log(t)}}("London")})();

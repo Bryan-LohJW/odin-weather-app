@@ -15,4 +15,12 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'), // where it is located
     clean: true,
   },
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
 };

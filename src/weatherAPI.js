@@ -6,6 +6,7 @@ const weatherStateMetric = (weatherData, div = 'topContent') => {
   const { speed } = weatherData.wind;
   temp -= 273.15;
   temp = temp.toPrecision(3);
+  console.log(weatherData);
 
   const locationName = document.createElement('p');
   locationName.innerHTML = `${name}`;
@@ -19,9 +20,16 @@ const weatherStateMetric = (weatherData, div = 'topContent') => {
   const locationWindSpeed = document.createElement('p');
   locationWindSpeed.innerHTML = `${(speed * 3.6).toPrecision(3)}kph`;
 
+  const d = new Date();
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  d.setTime(weatherData.dt * 1000);
+  const forecastDate = document.createElement('p');
+  forecastDate.innerHTML = `${d.getDate()} ${months[d.getMonth()]}`;
+
   const contentBody = document.getElementById(`${div}`);
 
   contentBody.appendChild(locationName);
+  contentBody.appendChild(forecastDate);
   contentBody.appendChild(locationCondition);
   contentBody.appendChild(locationTemp);
   contentBody.appendChild(locationWindSpeed);

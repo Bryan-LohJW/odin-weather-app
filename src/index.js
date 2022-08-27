@@ -1,6 +1,7 @@
 import getWeather from './weatherAPI';
+import './style.css';
 
-const startUp = function () {
+const startUp = () => {
   const body = document.querySelector('body');
   const topContent = document.createElement('div');
   topContent.setAttribute('id', 'topContent');

@@ -1,3 +1,21 @@
+const searchBarPlacement = (div) => {
+  const form = document.createElement('form');
+  const searchBar = document.createElement('input');
+  searchBar.setAttribute('type', 'text');
+  searchBar.setAttribute('id', 'location');
+  searchBar.setAttribute('placeholder', 'Location');
+  searchBar.setAttribute('required');
+  const searchButton = document.createElement('button');
+  searchButton.setAttribute('type', 'submit');
+  searchButton.innerHTML = 'Search';
+
+  const content = document.getElementById(`${div}`);
+
+  form.appendChild(searchBar);
+  form.appendChild(searchButton);
+  content.appendChild(form);
+};
+
 const weatherStateMetric = (weatherData, div = 'topContent') => {
   const degreesCelcius = String.fromCodePoint(8451);
   const { name } = weatherData;
@@ -24,10 +42,19 @@ const weatherStateMetric = (weatherData, div = 'topContent') => {
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   d.setTime(weatherData.dt * 1000);
   const forecastDate = document.createElement('p');
-  forecastDate.innerHTML = `${d.getDate()} ${months[d.getMonth()]}`;
+  forecastDate.innerHTML = `${d.getDate()} ${months[d.getMonth()]}, ${d.getDay()}`;
 
   const contentBody = document.getElementById(`${div}`);
+  const firstSplit = document.createElement('div');
+  firstSplit.setAttribute('id', 'top-first');
+  const secondSplit = document.createElement('div');
+  secondSplit.setAttribute('id', 'top-second');
+  const thirdSplit = document.createElement('div');
+  thirdSplit.setAttribute('id', 'top-third');
+  const fourthSplit = document.createElement('div');
+  fourthSplit.setAttribute('id', 'fourth-split');
 
+  searchBarPlacement('top-first');
   contentBody.appendChild(locationName);
   contentBody.appendChild(forecastDate);
   contentBody.appendChild(locationCondition);

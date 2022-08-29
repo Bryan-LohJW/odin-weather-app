@@ -49,8 +49,24 @@ table {
 
 /* ........................................................... */
 
-body {
+#content {
+	display:flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 60vh;
+
+	width: 100vw;
+	height: 100vh;
+
     background-image: url('./clearsky.jpeg');
     background-size: cover;
     background-repeat: no-repeat;
+}
+
+#topContent {
+	margin: 100px;
+}
+
+#botContent {
+	margin-bottom: 200px;
 }

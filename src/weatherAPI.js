@@ -167,7 +167,6 @@ const weatherForecastMetric = (weatherData, div = 'botContent') => {
 };
 
 async function getWeather(location) {
-  clearContent();
   try {
     const key = 'cd422b923b03f0e42f9bffddb3a4239d';
     const geoPromise = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${key}`, { mode: 'cors' });
@@ -177,10 +176,11 @@ async function getWeather(location) {
 
     const weatherStatePromise = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}`);
     const weatherData = await weatherStatePromise.json();
-    weatherStateMetric(weatherData);
 
     const weatherForecastPromise = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${key}`);
     const weatherForecast = await weatherForecastPromise.json();
+    clearContent();
+    weatherStateMetric(weatherData);
     weatherForecastMetric(weatherForecast);
   } catch (error) {
     console.log(error);

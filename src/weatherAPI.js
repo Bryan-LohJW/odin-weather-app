@@ -1,5 +1,6 @@
 const searchBarPlacement = (div) => {
   const form = document.createElement('form');
+
   const searchBar = document.createElement('input');
   searchBar.setAttribute('type', 'text');
   searchBar.setAttribute('id', 'location');
@@ -14,6 +15,26 @@ const searchBarPlacement = (div) => {
   form.appendChild(searchBar);
   form.appendChild(searchButton);
   content.insertBefore(form, content.firstChild);
+};
+
+const formInitialize = () => {
+  const form = document.querySelector('form');
+  const searchBar = document.querySelector('input');
+  form.onsubmit = () => {
+    getWeather(searchBar.value);
+    return false;
+  };
+};
+
+const clearContent = () => {
+  const top = document.querySelector('#topContent');
+  const bot = document.querySelector('#botContent');
+  while (top.hasChildNodes()) {
+    top.removeChild(top.firstChild);
+  }
+  while (bot.hasChildNodes()) {
+    bot.removeChild(bot.firstChild);
+  }
 };
 
 const weatherStateMetric = (weatherData, div = 'topContent', wallpaperBody = 'content') => {
@@ -74,7 +95,7 @@ const weatherStateMetric = (weatherData, div = 'topContent', wallpaperBody = 'co
       wallpaper.classList.add('rainy');
       break;
     case weatherGroup === 'Clear':
-      picture.setAttribute('src', '../src/icons8-sun-96.png');
+      picture.setAttribute('src', '../src/icons8-sun-192.png');
       picture.setAttribute('alt', 'Clear Icon');
       wallpaper.classList.add('clear');
       break;
@@ -110,6 +131,7 @@ const weatherStateMetric = (weatherData, div = 'topContent', wallpaperBody = 'co
   contentBody.appendChild(thirdSplit);
   contentBody.appendChild(fourthSplit);
   searchBarPlacement('top-first');
+  formInitialize();
 };
 
 const weatherForecastMetric = (weatherData, div = 'botContent') => {
@@ -145,6 +167,7 @@ const weatherForecastMetric = (weatherData, div = 'botContent') => {
 };
 
 async function getWeather(location) {
+  clearContent();
   try {
     const key = 'cd422b923b03f0e42f9bffddb3a4239d';
     const geoPromise = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${key}`, { mode: 'cors' });

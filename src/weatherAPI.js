@@ -4,7 +4,7 @@ const searchBarPlacement = (div) => {
   searchBar.setAttribute('type', 'text');
   searchBar.setAttribute('id', 'location');
   searchBar.setAttribute('placeholder', 'Location');
-  searchBar.setAttribute('required');
+  // searchBar.setAttribute('required');
   const searchButton = document.createElement('button');
   searchButton.setAttribute('type', 'submit');
   searchButton.innerHTML = 'Search';
@@ -13,15 +13,17 @@ const searchBarPlacement = (div) => {
 
   form.appendChild(searchBar);
   form.appendChild(searchButton);
-  content.appendChild(form);
+  content.insertBefore(form, content.firstChild);
 };
 
-const weatherStateMetric = (weatherData, div = 'topContent') => {
+const weatherStateMetric = (weatherData, div = 'topContent', wallpaperBody = 'content') => {
   const degreesCelcius = String.fromCodePoint(8451);
   const { name } = weatherData;
-  const weather = weatherData.weather[0].main;
+  const weather = weatherData.weather[0].description;
+  const weatherGroup = weatherData.weather[0].main;
   let { temp } = weatherData.main;
   const { speed } = weatherData.wind;
+  const { humidity } = weatherData.main;
   temp -= 273.15;
   temp = temp.toPrecision(3);
   console.log(weatherData);
@@ -30,19 +32,61 @@ const weatherStateMetric = (weatherData, div = 'topContent') => {
   locationName.innerHTML = `${name}`;
 
   const locationCondition = document.createElement('p');
-  locationCondition.innerHTML = `${weather}`;
+  const weatherArray = weather.split(' ');
+  let weatherString = '';
+  for (let i = 0; i < weatherArray.length; i += 1) {
+    const firstLetter = weatherArray[i].slice(0, 1).toUpperCase();
+    const rest = weatherArray[i].slice(1, weatherArray[i].length);
+    weatherString += `${firstLetter}${rest} `;
+    console.log(rest);
+  }
+  weatherString.trimEnd();
+  locationCondition.innerHTML = `${weatherString}`;
+  console.log(weatherString);
 
   const locationTemp = document.createElement('p');
-  locationTemp.innerHTML = `${temp}${degreesCelcius}`;
+  locationTemp.innerHTML = `Temperature: ${temp}${degreesCelcius}`;
+
+  const locationHumidity = document.createElement('p');
+  locationHumidity.innerHTML = `Humidity: ${humidity}%`;
 
   const locationWindSpeed = document.createElement('p');
-  locationWindSpeed.innerHTML = `${(speed * 3.6).toPrecision(3)}kph`;
+  locationWindSpeed.innerHTML = `Wind Speed: ${(speed * 3.6).toPrecision(3)}kph`;
 
   const d = new Date();
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   d.setTime(weatherData.dt * 1000);
   const forecastDate = document.createElement('p');
-  forecastDate.innerHTML = `${d.getDate()} ${months[d.getMonth()]}, ${d.getDay()}`;
+  forecastDate.innerHTML = `${d.getDate()} ${months[d.getMonth()]}, ${days[d.getDay() - 1]}`;
+
+  const picture = document.createElement('img');
+  const wallpaper = document.getElementById(`${wallpaperBody}`);
+  switch (true) {
+    case weatherGroup === 'Thunderstorm':
+      picture.setAttribute('src', '../src/icons8-storm-96.png');
+      picture.setAttribute('alt', 'Thunderstorm Icon');
+      wallpaper.classList.add('rainy');
+      break;
+    case weatherGroup === 'Drizzle' || weatherGroup === 'Rain' || weatherGroup === 'Snow':
+      picture.setAttribute('src', '../src/icons8-rain-96.png');
+      picture.setAttribute('alt', 'Rain Icon');
+      wallpaper.classList.add('rainy');
+      break;
+    case weatherGroup === 'Clear':
+      picture.setAttribute('src', '../src/icons8-sun-96.png');
+      picture.setAttribute('alt', 'Clear Icon');
+      wallpaper.classList.add('clear');
+      break;
+    case weatherGroup === 'Clouds':
+      picture.setAttribute('src', '../src/icons8-cloud-96.png');
+      picture.setAttribute('alt', 'Cloudy Icon');
+      wallpaper.classList.add('cloudy');
+      break;
+    default:
+      wallpaper.classList('clear');
+      break;
+  }
 
   const contentBody = document.getElementById(`${div}`);
   const firstSplit = document.createElement('div');
@@ -54,12 +98,18 @@ const weatherStateMetric = (weatherData, div = 'topContent') => {
   const fourthSplit = document.createElement('div');
   fourthSplit.setAttribute('id', 'fourth-split');
 
+  firstSplit.appendChild(forecastDate);
+  secondSplit.appendChild(locationName);
+  thirdSplit.appendChild(locationCondition);
+  thirdSplit.appendChild(picture);
+  fourthSplit.appendChild(locationTemp);
+  fourthSplit.appendChild(locationHumidity);
+  fourthSplit.appendChild(locationWindSpeed);
+  contentBody.appendChild(firstSplit);
+  contentBody.appendChild(secondSplit);
+  contentBody.appendChild(thirdSplit);
+  contentBody.appendChild(fourthSplit);
   searchBarPlacement('top-first');
-  contentBody.appendChild(locationName);
-  contentBody.appendChild(forecastDate);
-  contentBody.appendChild(locationCondition);
-  contentBody.appendChild(locationTemp);
-  contentBody.appendChild(locationWindSpeed);
 };
 
 const weatherForecastMetric = (weatherData, div = 'botContent') => {

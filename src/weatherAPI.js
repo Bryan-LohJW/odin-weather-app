@@ -117,7 +117,7 @@ const weatherStateMetric = (weatherData, div = 'topContent', wallpaperBody = 'co
   const thirdSplit = document.createElement('div');
   thirdSplit.setAttribute('id', 'top-third');
   const fourthSplit = document.createElement('div');
-  fourthSplit.setAttribute('id', 'fourth-split');
+  fourthSplit.setAttribute('id', 'top-fourth');
 
   firstSplit.appendChild(forecastDate);
   secondSplit.appendChild(locationName);

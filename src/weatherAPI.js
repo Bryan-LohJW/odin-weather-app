@@ -117,7 +117,7 @@ const weatherStateMetric = (weatherData, div = 'topContent', wallpaperBody = 'co
 
   const locationWindSpeed = document.createElement('p');
   locationWindSpeed.innerHTML = `${(speed * 3.6).toPrecision(3)}`;
-  locationWindSpeed.classList.add('imperial');
+  locationWindSpeed.classList.add('metric');
   locationWindSpeed.classList.add('speed');
 
   const d = new Date();

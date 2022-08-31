@@ -120,6 +120,30 @@ table {
 	font-size: 2rem;
 }
 
+.temperature::before {
+	content: 'Temperature: ';
+}
+
+.metric.temperature::after {
+	content: '\00B0 C';
+}
+
+.speed::before {
+	content: 'Wind Speed: ';
+}
+
+.metric.speed::after {
+	content: 'kph';
+}
+
+.imperial.temperature::after {
+	content: '\00B0 F';
+}
+
+.imperial.speed::after {
+	content: 'mph';
+}
+
 input {
 	width: 150px;
 }

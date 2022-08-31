@@ -1,9 +1,44 @@
-class WeatherClass {
-  constructor(weatherArray) {
-    this.data = weatherArray[0];
-    this.forecast = weatherArray[1];
+const changeUnits = () => {
+  const metrics = document.getElementsByClassName('metric');
+  const imperials = document.getElementsByClassName('imperial');
+  for (let i = 0; i < metrics.length; i += 1) {
+    if (metrics[i].classList.contains('temperature')) {
+      let temp = Number(metrics[i].innerHTML);
+      console.log(temp);
+      temp = temp * (9 / 5) + 32;
+      console.log(temp);
+      metrics[i].innerHTML = temp.toPrecision(3);
+      console.log(temp);
+    } else if (metrics[i].classList.contains('speed')) {
+      let speed = Number(metrics[i].innerHTML);
+      speed /= 1.609;
+      console.log(metrics[i]);
+      metrics[i].innerHTML = speed.toPrecision(3);
+    }
   }
-}
+  for (let i = 0; i < imperials.length; i += 1) {
+    if (imperials[i].classList.contains('temperature')) {
+      let temp = Number(imperials[i].innerHTML);
+      temp = (temp - 32) * (5 / 9);
+      imperials[i].innerHTML = temp.toPrecision(3);
+    } else if (imperials[i].classList.contains('speed')) {
+      let speed = Number(imperials[i].innerHTML);
+      speed *= 1.609;
+      imperials[i].innerHTML = speed.toPrecision(3);
+    }
+  }
+  const speeds = document.getElementsByClassName('speed');
+  const temperatures = document.getElementsByClassName('temperature');
+  for (let i = 0; i < speeds.length; i += 1) {
+    speeds[i].classList.toggle('imperial');
+    speeds[i].classList.toggle('metric');
+  }
+  for (let i = 0; i < temperatures.length; i += 1) {
+    temperatures[i].classList.toggle('imperial');
+    temperatures[i].classList.toggle('metric');
+  }
+  console.log('success');
+};
 
 const searchBarPlacement = (div) => {
   const form = document.createElement('form');
@@ -45,7 +80,6 @@ const clearContent = () => {
 };
 
 const weatherStateMetric = (weatherData, div = 'topContent', wallpaperBody = 'content') => {
-  const degreesCelcius = String.fromCodePoint(8451);
   const { name } = weatherData;
   const weather = weatherData.weather[0].description;
   const weatherGroup = weatherData.weather[0].main;
@@ -54,7 +88,10 @@ const weatherStateMetric = (weatherData, div = 'topContent', wallpaperBody = 'co
   const { humidity } = weatherData.main;
   temp -= 273.15;
   temp = temp.toPrecision(3);
-  console.log(weatherData);
+
+  const button = document.createElement('button');
+  button.setAttribute('id', 'unit-switch');
+  button.addEventListener('click', () => { changeUnits(); });
 
   const locationName = document.createElement('p');
   locationName.innerHTML = `${name}`;
@@ -66,20 +103,22 @@ const weatherStateMetric = (weatherData, div = 'topContent', wallpaperBody = 'co
     const firstLetter = weatherArray[i].slice(0, 1).toUpperCase();
     const rest = weatherArray[i].slice(1, weatherArray[i].length);
     weatherString += `${firstLetter}${rest} `;
-    console.log(rest);
   }
   weatherString.trimEnd();
   locationCondition.innerHTML = `${weatherString}`;
-  console.log(weatherString);
 
   const locationTemp = document.createElement('p');
-  locationTemp.innerHTML = `Temperature: ${temp}${degreesCelcius}`;
+  locationTemp.innerHTML = `${temp}`;
+  locationTemp.classList.add('metric');
+  locationTemp.classList.add('temperature');
 
   const locationHumidity = document.createElement('p');
   locationHumidity.innerHTML = `Humidity: ${humidity}%`;
 
   const locationWindSpeed = document.createElement('p');
-  locationWindSpeed.innerHTML = `Wind Speed: ${(speed * 3.6).toPrecision(3)}kph`;
+  locationWindSpeed.innerHTML = `${(speed * 3.6).toPrecision(3)}`;
+  locationWindSpeed.classList.add('imperial');
+  locationWindSpeed.classList.add('speed');
 
   const d = new Date();
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -126,6 +165,7 @@ const weatherStateMetric = (weatherData, div = 'topContent', wallpaperBody = 'co
   const fourthSplit = document.createElement('div');
   fourthSplit.setAttribute('id', 'top-fourth');
 
+  firstSplit.appendChild(button);
   firstSplit.appendChild(forecastDate);
   secondSplit.appendChild(locationName);
   thirdSplit.appendChild(locationCondition);
@@ -143,7 +183,6 @@ const weatherStateMetric = (weatherData, div = 'topContent', wallpaperBody = 'co
 
 const weatherForecastMetric = (weatherData, div = 'botContent') => {
   for (let i = 7; i < weatherData.list.length; i += 8) {
-    console.log(weatherData.list[i]);
     const degreesCelcius = String.fromCodePoint(8451);
     const content = document.getElementById(`${div}`);
     const container = document.createElement('div');
@@ -174,6 +213,8 @@ const weatherForecastMetric = (weatherData, div = 'botContent') => {
 };
 
 async function getWeather(location) {
+  let weatherData;
+  let weatherForecast;
   try {
     const key = 'cd422b923b03f0e42f9bffddb3a4239d';
     const geoPromise = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${key}`, { mode: 'cors' });
@@ -182,17 +223,17 @@ async function getWeather(location) {
     const { lat } = geoData[0];
 
     const weatherStatePromise = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${key}`);
-    const weatherData = await weatherStatePromise.json();
+    weatherData = await weatherStatePromise.json();
 
     const weatherForecastPromise = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${key}`);
-    const weatherForecast = await weatherForecastPromise.json();
+    weatherForecast = await weatherForecastPromise.json();
     clearContent();
     weatherStateMetric(weatherData);
     weatherForecastMetric(weatherForecast);
-    return [weatherData, weatherForecast];
   } catch (error) {
     console.log(error);
   }
+  return [weatherData, weatherForecast];
 }
 
 export default getWeather;

@@ -1,3 +1,10 @@
+class WeatherClass {
+  constructor(weatherArray) {
+    this.data = weatherArray[0];
+    this.forecast = weatherArray[1];
+  }
+}
+
 const searchBarPlacement = (div) => {
   const form = document.createElement('form');
 
@@ -182,6 +189,7 @@ async function getWeather(location) {
     clearContent();
     weatherStateMetric(weatherData);
     weatherForecastMetric(weatherForecast);
+    return [weatherData, weatherForecast];
   } catch (error) {
     console.log(error);
   }

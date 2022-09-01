@@ -235,7 +235,7 @@ async function getWeather(location) {
   let weatherForecast;
   try {
     const key = 'cd422b923b03f0e42f9bffddb3a4239d';
-    const geoPromise = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${key}`, { mode: 'cors' });
+    const geoPromise = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${key}`, { mode: 'cors' });
     const geoData = await geoPromise.json();
     const { lon } = geoData[0];
     const { lat } = geoData[0];

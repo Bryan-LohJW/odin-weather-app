@@ -52,7 +52,6 @@ const searchBarPlacement = (div) => {
   searchBar.setAttribute('type', 'text');
   searchBar.setAttribute('id', 'location');
   searchBar.setAttribute('placeholder', 'Location');
-  // searchBar.setAttribute('required');
   const searchButton = document.createElement('button');
   searchButton.setAttribute('type', 'submit');
   searchButton.innerHTML = 'Search';
@@ -247,8 +246,8 @@ async function getWeather(location) {
     const weatherForecastPromise = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${key}`);
     weatherForecast = await weatherForecastPromise.json();
     clearContent();
-    weatherStateMetric(weatherData);
     weatherForecastMetric(weatherForecast);
+    weatherStateMetric(weatherData);
   } catch (error) {
     console.log(error);
   }

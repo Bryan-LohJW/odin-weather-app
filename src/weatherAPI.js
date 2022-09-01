@@ -91,6 +91,7 @@ const weatherStateMetric = (weatherData, div = 'topContent', wallpaperBody = 'co
 
   const button = document.createElement('button');
   button.setAttribute('id', 'unit-switch');
+  button.innerHTML = 'Switch Units';
   button.addEventListener('click', () => { changeUnits(); });
 
   const locationName = document.createElement('p');
@@ -125,30 +126,31 @@ const weatherStateMetric = (weatherData, div = 'topContent', wallpaperBody = 'co
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   d.setTime(weatherData.dt * 1000);
   const forecastDate = document.createElement('p');
+  forecastDate.setAttribute('id', 'date');
   forecastDate.innerHTML = `${d.getDate()} ${months[d.getMonth()]}, ${days[d.getDay() - 1]}`;
 
   const picture = document.createElement('img');
-  const wallpaper = document.getElementById(`${wallpaperBody}`);
+  const wallpaper = document.querySelector(`.${wallpaperBody}`);
   switch (true) {
     case weatherGroup === 'Thunderstorm':
       picture.setAttribute('src', '../src/icons8-storm-96.png');
       picture.setAttribute('alt', 'Thunderstorm Icon');
-      wallpaper.classList.add('rainy');
+      wallpaper.setAttribute('id', 'rainy');
       break;
     case weatherGroup === 'Drizzle' || weatherGroup === 'Rain' || weatherGroup === 'Snow':
       picture.setAttribute('src', '../src/icons8-rain-96.png');
       picture.setAttribute('alt', 'Rain Icon');
-      wallpaper.classList.add('rainy');
+      wallpaper.setAttribute('id', 'rainy');
       break;
     case weatherGroup === 'Clear':
       picture.setAttribute('src', '../src/icons8-sun-192.png');
       picture.setAttribute('alt', 'Clear Icon');
-      wallpaper.classList.add('clear');
+      wallpaper.setAttribute('id', 'clear');
       break;
     case weatherGroup === 'Clouds':
       picture.setAttribute('src', '../src/icons8-cloud-96.png');
       picture.setAttribute('alt', 'Cloudy Icon');
-      wallpaper.classList.add('cloudy');
+      wallpaper.setAttribute('id', 'cloudy');
       break;
     default:
       wallpaper.classList('clear');

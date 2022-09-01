@@ -4,7 +4,7 @@ import './style.css';
 const startUp = () => {
   const body = document.querySelector('body');
   const content = document.createElement('div');
-  content.setAttribute('id', 'content');
+  content.classList.add('content');
 
   const topContent = document.createElement('div');
   topContent.setAttribute('id', 'topContent');

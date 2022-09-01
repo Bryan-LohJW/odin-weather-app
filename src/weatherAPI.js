@@ -37,7 +37,12 @@ const changeUnits = () => {
     temperatures[i].classList.toggle('imperial');
     temperatures[i].classList.toggle('metric');
   }
-  console.log('success');
+
+  if (localStorage.getItem('unit') === null || localStorage.getItem('unit') === 'imperial') {
+    localStorage.setItem('unit', 'metric');
+  } else if (localStorage.getItem('unit') === 'metric') {
+    localStorage.setItem('unit', 'imperial');
+  }
 };
 
 const searchBarPlacement = (div) => {
@@ -181,6 +186,11 @@ const weatherStateMetric = (weatherData, div = 'topContent', wallpaperBody = 'co
   contentBody.appendChild(fourthSplit);
   searchBarPlacement('top-first');
   formInitialize();
+
+  if (localStorage.getItem('unit') === 'imperial') {
+    changeUnits();
+    localStorage.setItem('unit', 'imperial');
+  }
 };
 
 const weatherForecastMetric = (weatherData, div = 'botContent') => {

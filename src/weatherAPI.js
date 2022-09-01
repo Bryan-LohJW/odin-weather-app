@@ -137,22 +137,22 @@ const weatherStateMetric = (weatherData, div = 'topContent', wallpaperBody = 'co
   const wallpaper = document.querySelector(`.${wallpaperBody}`);
   switch (true) {
     case weatherGroup === 'Thunderstorm':
-      picture.setAttribute('src', '../src/icons8-storm-96.png');
+      picture.setAttribute('src', './src/icons8-storm-96.png');
       picture.setAttribute('alt', 'Thunderstorm Icon');
       wallpaper.setAttribute('id', 'rainy');
       break;
     case weatherGroup === 'Drizzle' || weatherGroup === 'Rain' || weatherGroup === 'Snow':
-      picture.setAttribute('src', '../src/icons8-rain-96.png');
+      picture.setAttribute('src', './src/icons8-rain-96.png');
       picture.setAttribute('alt', 'Rain Icon');
       wallpaper.setAttribute('id', 'rainy');
       break;
     case weatherGroup === 'Clear':
-      picture.setAttribute('src', '../src/icons8-sun-192.png');
+      picture.setAttribute('src', './src/icons8-sun-192.png');
       picture.setAttribute('alt', 'Clear Icon');
       wallpaper.setAttribute('id', 'clear');
       break;
     case weatherGroup === 'Clouds':
-      picture.setAttribute('src', '../src/icons8-cloud-96.png');
+      picture.setAttribute('src', './src/icons8-cloud-96.png');
       picture.setAttribute('alt', 'Cloudy Icon');
       wallpaper.setAttribute('id', 'cloudy');
       break;

@@ -195,7 +195,6 @@ const weatherStateMetric = (weatherData, div = 'topContent', wallpaperBody = 'co
 
 const weatherForecastMetric = (weatherData, div = 'botContent') => {
   for (let i = 7; i < weatherData.list.length; i += 8) {
-    const degreesCelcius = String.fromCodePoint(8451);
     const content = document.getElementById(`${div}`);
     const container = document.createElement('div');
 
@@ -203,18 +202,26 @@ const weatherForecastMetric = (weatherData, div = 'botContent') => {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     d.setTime(weatherData.list[i].dt * 1000);
     const forecastDate = document.createElement('p');
+    forecastDate.classList.add('forecast-date');
     forecastDate.innerHTML = `${d.getDate()} ${months[d.getMonth()]}`;
 
     const weatherState = document.createElement('p');
+    weatherState.classList.add('weather-state');
     weatherState.innerHTML = weatherData.list[i].weather[0].main;
 
     const tempFeels = document.createElement('p');
+    tempFeels.classList.add('metric');
+    tempFeels.classList.add('temperature');
+    tempFeels.classList.add('feels');
     const tempFeelsValue = (weatherData.list[i].main.feels_like - 273.15).toPrecision(3);
-    tempFeels.innerHTML = tempFeelsValue + degreesCelcius;
+    tempFeels.innerHTML = tempFeelsValue;
 
     const tempActual = document.createElement('p');
+    tempActual.classList.add('metric');
+    tempActual.classList.add('temperature');
+    tempActual.classList.add('actual');
     const tempActualValue = (weatherData.list[i].main.temp - 273.15).toPrecision(3);
-    tempActual.innerHTML = tempActualValue + degreesCelcius;
+    tempActual.innerHTML = tempActualValue;
 
     container.appendChild(forecastDate);
     container.appendChild(weatherState);

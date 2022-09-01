@@ -177,7 +177,9 @@ button:hover {
 	content: 'Temperature: ';
 }
 
-.metric.temperature::after {
+.metric.temperature::after,
+.metric.feels::after,
+.metric.actual::after {
 	content: '\00B0 C';
 }
 
@@ -189,12 +191,22 @@ button:hover {
 	content: 'kph';
 }
 
-.imperial.temperature::after {
+.imperial.temperature::after,
+.imperial.feels::after,
+.imperial.actual::after {
 	content: '\00B0 F';
 }
 
 .imperial.speed::after {
 	content: 'mph';
+}
+
+.feels::before {
+	content: 'Feels Like: '
+}
+
+.actual::before {
+	content: 'Actual: '
 }
 
 input {
@@ -212,9 +224,24 @@ input {
 	align-items: center;
 	width: 80%;
 	padding: 50px 0px;
+	font-size: 1.5rem;
+	text-align: center;
 
 	color: white;
 	background: var(--background);
 
 	border-radius: 2rem;
+}
+
+.forecast-date {
+	font-size: 2rem;
+}
+
+.forecast-date::after {
+	content: '\A   ';
+	white-space: pre;
+}
+
+.weather-state::before {
+	content: 'Weather: ';
 }

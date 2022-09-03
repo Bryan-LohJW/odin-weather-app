@@ -9,15 +9,11 @@ const changeUnits = () => {
   for (let i = 0; i < metrics.length; i += 1) {
     if (metrics[i].classList.contains('temperature')) {
       let temp = Number(metrics[i].innerHTML);
-      console.log(temp);
       temp = temp * (9 / 5) + 32;
-      console.log(temp);
       metrics[i].innerHTML = temp.toPrecision(3);
-      console.log(temp);
     } else if (metrics[i].classList.contains('speed')) {
       let speed = Number(metrics[i].innerHTML);
       speed /= 1.609;
-      console.log(metrics[i]);
       metrics[i].innerHTML = speed.toPrecision(3);
     }
   }
@@ -254,7 +250,7 @@ async function getWeather(location) {
     weatherForecastMetric(weatherForecast);
     weatherStateMetric(weatherData);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
   return [weatherData, weatherForecast];
 }
